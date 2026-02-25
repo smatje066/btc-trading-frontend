@@ -202,4 +202,51 @@ function DashboardView({
               <span>${analysis.movingAverages.sma20.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-400">SMA 50</span
+              <span className="text-gray-400">SMA 50</span              <span>${analysis.movingAverages.sma50.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Support/Resistance */}
+        <div className="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingDown className="text-accent-red" size={20} />
+            <h3 className="font-semibold">Support & Resistance</h3>
+          </div>
+          <div className="space-y-3 text-sm">
+            <div>
+              <p className="text-gray-400 mb-1">Resistance</p>
+              {supportResistance.resistance.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {supportResistance.resistance.map((r, i) => (
+                    <span key={i} className="px-2 py-1 bg-red-900/30 text-red-300 rounded text-xs">
+                      ${r.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span className="text-gray-500">None detected</span>
+              )}
+            </div>
+            <div>
+              <p className="text-gray-400 mb-1">Support</p>
+              {supportResistance.support.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {supportResistance.support.map((s, i) => (
+                    <span key={i} className="px-2 py-1 bg-green-900/30 text-green-300 rounded text-xs">
+                      ${s.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span className="text-gray-500">None detected</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
