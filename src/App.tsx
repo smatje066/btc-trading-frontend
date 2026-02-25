@@ -202,7 +202,9 @@ function DashboardView({
               <span>${analysis.movingAverages.sma20.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-400">SMA 50</span              <span>${analysis.movingAverages.sma50.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
+            <div className="flex justify-between">
+              <span className="text-gray-400">SMA 50</span>
+              <span>${analysis.movingAverages.sma50.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
             </div>
           </div>
         </div>
