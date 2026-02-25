@@ -75,24 +75,18 @@ function App() {
               <button
                 onClick={() => setActiveTab('dashboard')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === 'dashboard'
-                    ? 'bg-accent-blue text-white'
-                    : 'text-gray-400 hover:text-white'
+                  activeTab === 'dashboard' ? 'bg-accent-blue text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >
-                <Activity size={18} />
-                Dashboard
+                <Activity size={18} /> Dashboard
               </button>
               <button
                 onClick={() => setActiveTab('settings')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === 'settings'
-                    ? 'bg-accent-blue text-white'
-                    : 'text-gray-400 hover:text-white'
+                  activeTab === 'settings' ? 'bg-accent-blue text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >
-                <Settings size={18} />
-                Settings
+                <Settings size={18} /> Settings
               </button>
             </nav>
           </div>
@@ -104,11 +98,7 @@ function App() {
         {activeTab === 'dashboard' ? (
           <DashboardView analysis={analysis} lastUpdate={lastUpdate} />
         ) : (
-          <SettingsPanel
-            settings={settings}
-            onUpdate={handleSettingsUpdate}
-            onTestTelegram={handleTestTelegram}
-          />
+          <SettingsPanel settings={settings} onUpdate={handleSettingsUpdate} onTestTelegram={handleTestTelegram} />
         )}
       </main>
 
@@ -116,7 +106,6 @@ function App() {
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <p className="text-xs text-gray-500 text-center">
           ⚠️ This is technical analysis only, not financial advice. Trade at your own risk.
-          Cron job runs every 30 minutes to analyze BTC charts.
         </p>
       </footer>
     </div>
@@ -189,7 +178,7 @@ function DashboardView({
           <p className={`text-sm mt-3 ${
             rsi < 30 ? 'text-accent-green' : rsi > 70 ? 'text-accent-red' : 'text-gray-400'
           }`}>
-            {rsi < 30 ? 'Oversold - Potential Buy' : rsi > 70 ? 'Oversold - Potential Sell' : 'Neutral'}
+            {rsi < 30 ? 'Oversold - Potential Buy' : rsi > 70 ? 'Overbought - Potential Sell' : 'Neutral'}
           </p>
         </div>
 
@@ -210,3 +199,7 @@ function DashboardView({
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">SMA 20</span>
+              <span>${analysis.movingAverages.sma20.toLocaleString('en-US', { minimumFractionDigits: 0 })}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-400">SMA 50</span
