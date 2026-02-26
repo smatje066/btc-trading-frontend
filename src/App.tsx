@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Bitcoin, Settings, Activity } from 'lucide-react';
 import { getAnalysis, getSettings, updateSettings, testTelegram } from './api';
 import { AnalysisResult, UserSettings } from './types';
-import { TrendIndicator, SignalCard, SettingsPanel } from './components';
+import { TrendIndicator, SignalCard, SettingsPanel, TradingViewChart } from './components';
 
 function App() {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
@@ -115,6 +115,10 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
 
   return (
     <div className="space-y-6">
+      {/* TradingView Chart */}
+      <TradingViewChart analysis={analysis} />
+
+      {/* Price Header */}
       <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
         <div className="flex items-center justify-between">
           <div>
@@ -128,9 +132,12 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
         <p className="text-xs text-gray-500 mt-4">Last updated: {lastUpdate.toLocaleString()}</p>
       </div>
 
+      {/* Signal Card */}
       {(isLongSignal || isShortSignal) && signal.confidence >= 60 && <SignalCard signal={signal} />}
 
+      {/* Indicators Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* RSI Card */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <div className="flex items-center gap-2 mb-4">
             <Activity className="text-blue-500" size={20} />
@@ -148,6 +155,7 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
           </p>
         </div>
 
+        {/* Moving Averages Card */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <h3 className="font-semibold mb-4">Moving Averages</h3>
           <div className="space-y-2 text-sm">
@@ -170,6 +178,7 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
           </div>
         </div>
 
+        {/* Signal Card */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <h3 className="font-semibold mb-4">Signal</h3>
           <div className="text-2xl font-bold">
