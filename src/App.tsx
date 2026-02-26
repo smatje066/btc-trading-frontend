@@ -97,7 +97,7 @@ function App() {
 
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <p className="text-xs text-gray-500 text-center">
-          ⚠️ This is technical analysis only, not financial advice. Trade at your own risk.
+          ⚠️ This is technical analysis only, not financial advice.
         </p>
       </footer>
     </div>
@@ -109,7 +109,7 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
     return <div className="text-center py-12 text-gray-400">No analysis data available</div>;
   }
 
-  const { currentPrice, trend, rsi, signal, supportResistance } = analysis;
+  const { currentPrice, trend, rsi, signal } = analysis;
   const isLongSignal = signal.type === 'LONG';
   const isShortSignal = signal.type === 'SHORT';
 
@@ -137,20 +137,14 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
             <h3 className="font-semibold">RSI</h3>
           </div>
           <div className="text-3xl font-bold">{rsi.toFixed(1)}</div>
-          <div className="mt-2">
-            <div className="flex justify-between text-xs text-gray-400">
-              <span>Oversold</span>
-              <span>Overbought</span>
-            </div>
-            <div className="relative h-2 bg-gray-700 rounded-full mt-1">
-              <div
-                className="absolute h-full bg-blue-500 rounded-full transition-all"
-                style={{ width: `${Math.min(100, Math.max(0, (rsi / 100) * 100))}%` }}
-              />
-            </div>
+          <div className="relative h-2 bg-gray-700 rounded-full mt-2">
+            <div
+              className="absolute h-full bg-blue-500 rounded-full transition-all"
+              style={{ width: `${Math.min(100, Math.max(0, (rsi / 100) * 100))}%` }}
+            />
           </div>
-          <p className={`text-sm mt-3 ${rsi < 30 ? 'text-green-400' : rsi > 70 ? 'text-red-400' : 'text-gray-400'}`}>
-            {rsi < 30 ? 'Oversold - Potential Buy' : rsi > 70 ? 'Overbought - Potential Sell' : 'Neutral'}
+          <p className={`text-sm mt-2 ${rsi < 30 ? 'text-green-400' : rsi > 70 ? 'text-red-400' : 'text-gray-400'}`}>
+            {rsi < 30 ? 'Oversold' : rsi > 70 ? 'Overbought' : 'Neutral'}
           </p>
         </div>
 
@@ -159,55 +153,43 @@ function DashboardView({ analysis, lastUpdate }: { analysis: AnalysisResult | nu
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-400">EMA 12</span>
-              <span>${analysis.movingAverages.ema12.toLocaleString('en-US', { maximumFractionDigits: 0 })}</span>
+              <span>${analysis.movingAverages.ema12.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">EMA 26</span>
-              <span>${analysis.movingAverages.ema26.toLocaleString('en-US', { maximumFractionDigits: 0 })}</span>
+              <span>${analysis.movingAverages.ema26.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">SMA 20</span>
-              <span>${analysis.movingAverages.sma20.toLocaleString('en-US', { maximumFractionDigits: 0 })}</span>
+              <span>${analysis.movingAverages.sma20.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">SMA 50</span>
-              <span>${analysis.movingAverages.sma50.toLocaleString('en-US', { maximumFractionDigits: 0 })}</span>
+              <span>${analysis.movingAverages.sma50.toLocaleString()}</span>
             </div>
           </div>
         </div>
 
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-          <h3 className="font-semibold mb-4">Support & Resistance</h3>
-          <div className="space-y-3 text-sm">
-            <div>
-              <p className="text-gray-400 mb-1">Resistance</p>
-              {supportResistance.resistance.length > 0 ? (
-                <div                <div className="flex flex-wrap gap-1">
-                  {supportResistance.resistance.map((r, i) => (
-                    <span key={i} className="px-2 py-1 bg-red-900/30 text-red-300 rounded text-xs">
-                      ${r.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <span className="text-gray-500">None detected</span>
-              )}
-            </div>
-            <div>
-              <p className="text-gray-400 mb-1">Support</p>
-              {supportResistance.support.length > 0 ? (
-                <div className="flex flex-wrap gap-1">
-                  {supportResistance.support.map((s, i) => (
-                    <span key={i} className="px-2 py-1 bg-green-900/30 text-green-300 rounded text-xs">
-                      ${s.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <span className="text-gray-500">None detected</span>
-              )}
-            </div>
+          <h3 className="font-semibold mb-4">Signal</h3>
+          <div className="text-2xl font-bold">
+            {signal.type === 'NEUTRAL' ? (
+              <span className="text-gray-400">No Signal</span>
+            ) : signal.type === 'LONG' ? (
+              <span className="text-green-400">LONG</span>
+            ) : (
+              <span className="text-red-400">SHORT</span>
+            )}
           </div>
+          {signal.type !== 'NEUTRAL' && (
+            <>
+              <p className="text-sm text-gray-400 mt-2">Confidence: {signal.confidence.toFixed(0)}%</p>
+              <p className="text-sm text-gray-400">Entry: ${signal.entryPrice.toLocaleString()}</p>
+              <p className="text-sm text-gray-400">Stop: ${signal.stopLoss.toLocaleString()}</p>
+              <p className="text-sm text-gray-400">Target: ${signal.takeProfit.toLocaleString()}</p>
+              <p className="text-sm text-gray-400">R:R 1:{signal.riskRewardRatio}</p>
+            </>
+          )}
         </div>
       </div>
     </div>
