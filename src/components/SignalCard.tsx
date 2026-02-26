@@ -1,4 +1,4 @@
-import { ArrowUp, ArrowDown, Target, AlertTriangle, TrendingUp } from 'lucide-react';
+import { ArrowUp, ArrowDown, AlertTriangle, TrendingUp } from 'lucide-react';
 import { TradeSignal } from '../types';
 
 interface SignalCardProps {

@@ -36,5 +36,6 @@ export interface AnalysisResult {
 export interface UserSettings {
   tradeType: 'LONG' | 'SHORT' | 'BOTH';
   riskRewardRatio: number;
+  confidenceThreshold: number;
   notificationsEnabled: boolean;
 }
